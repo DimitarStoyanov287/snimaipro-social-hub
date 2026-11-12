@@ -1,0 +1,54 @@
+name: Instagram ingest
+
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+    inputs:
+      full_sync:
+        description: 'Re-pull the full media history instead of the last 60 days'
+        type: boolean
+        default: false
+
+concurrency:
+  group: instagram-ingest
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: ingest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      IG_TOKEN: ${{ secrets.IG_TOKEN }}
+      FULL_SYNC: ${{ inputs.full_sync && '1' || '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required secrets
+        run: |
+          missing=""
+          for name in SUPABASE_URL SUPABASE_SERVICE_ROLE_KEY IG_TOKEN; do
+            if [ -z "${!name}" ]; then missing="$missing $name"; fi
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Missing GitHub Actions secrets:$missing. Add them under Settings > Secrets and variables > Actions."
+            exit 1
+          fi
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: ingest/package-lock.json
+
+      - run: npm ci
+      - run: npm test
+      - run: npx tsx src/index.ts
