@@ -3,7 +3,7 @@
 Private dashboard with every snimai.pro Instagram post and its full stats history.
 Data refreshes daily from the official Instagram API. Built for the snimai.pro social media team.
 
-- **Web app:** `web/` (React, hosted on GitHub Pages)
+- **Web app:** `web/` (React, hosted free on Cloudflare Pages)
 - **Database + login:** Supabase (`supabase/`)
 - **Daily data sync:** GitHub Actions (`ingest/`, `.github/workflows/ingest.yml`)
 - **Architecture:** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
@@ -21,7 +21,7 @@ Without a backend configured, the site runs in demo mode with sample data.
    insert into public.allowed_users (email) values ('your@email.com');
    ```
 4. Authentication > URL Configuration: set **Site URL** to
-   `https://dimitarstoyanov287.github.io/snimaipro-social-hub/` and add it to Redirect URLs.
+   `https://snimaipro-social-hub.pages.dev/` and add it to Redirect URLs.
 5. Project Settings > API: copy the **Project URL**, the **anon key** and the **service_role key**.
 
 ### 2. Instagram token
@@ -40,17 +40,29 @@ Repo > Settings > Secrets and variables > Actions > New repository secret:
 | `SUPABASE_URL` | Supabase Project URL |
 | `SUPABASE_SERVICE_ROLE_KEY` | service_role key (keep private) |
 | `IG_TOKEN` | Instagram token |
-| `VITE_SUPABASE_URL` | Supabase Project URL |
-| `VITE_SUPABASE_ANON_KEY` | anon key |
 
-### 4. GitHub Pages
+### 4. Cloudflare Pages (free, works with private repos)
 
-Repo > Settings > Pages > Source: **GitHub Actions**.
+1. dash.cloudflare.com > **Workers & Pages** > Create > **Pages** > **Connect to Git**.
+2. Authorize GitHub and pick `snimaipro-social-hub`.
+3. Build settings:
+   - Framework preset: **None**
+   - Build command: `npm ci && npm run build`
+   - Build output directory: `dist`
+   - Root directory: `web`
+4. Environment variables (Production):
+   - `NODE_VERSION` = `20`
+   - `VITE_SUPABASE_URL` = Supabase Project URL
+   - `VITE_SUPABASE_ANON_KEY` = anon key
+5. Save and Deploy. Every push to `main` redeploys automatically.
+
+Without the two `VITE_` variables the site runs in demo mode with sample data.
 
 ### 5. First run
 
-Actions > **Instagram sync** > Run workflow (tick *full sync*). Then Actions > **Deploy web** > Run workflow.
-Open `https://dimitarstoyanov287.github.io/snimaipro-social-hub/` and log in with your email.
+Actions > **Instagram sync** > Run workflow (tick *full sync*). 
+Open `https://snimaipro-social-hub.pages.dev/` and log in with your email.
+If you added the Supabase variables after the first deploy, use Cloudflare > Deployments > Retry deployment.
 
 ## Security
 

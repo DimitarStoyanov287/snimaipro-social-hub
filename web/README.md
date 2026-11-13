@@ -19,8 +19,8 @@ Copy `.env.example` to `.env.local`:
 - `VITE_SUPABASE_URL`: project URL. Empty means demo mode.
 - `VITE_SUPABASE_ANON_KEY`: anon key (public by design, RLS protects data).
 
-In Supabase Auth, add the deployed URL (for example `https://<user>.github.io/snimaipro-social-hub/`) to the allowed redirect URLs. Add team emails to `allowed_users`.
+In Supabase Auth, add the deployed URL (for example `https://snimaipro-social-hub.pages.dev/`) to the allowed redirect URLs. Add team emails to `allowed_users`.
 
 ## Build and deploy
 
-`npm run build` outputs `dist/` with relative asset paths, so it works on GitHub Pages. The workflow `.github/workflows/deploy.yml` builds on push to main and uses the repo secrets `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
+`npm run build` outputs `dist/` with relative asset paths, so it works on any static host. Production deploys run on Cloudflare Pages (root `web`, build `npm ci && npm run build`, output `dist`, env `NODE_VERSION=20` plus the two `VITE_` variables).
