@@ -3,7 +3,7 @@
 Private dashboard with every snimai.pro Instagram post and its full stats history.
 Data refreshes daily from the official Instagram API. Built for the snimai.pro social media team.
 
-- **Web app:** `web/` (React, hosted free on Cloudflare Pages)
+- **Web app:** `web/` (React, hosted free on Cloudflare)
 - **Database + login:** Supabase (`supabase/`)
 - **Daily data sync:** GitHub Actions (`ingest/`, `.github/workflows/ingest.yml`)
 - **Architecture:** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)

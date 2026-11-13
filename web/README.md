@@ -19,7 +19,7 @@ Copy `.env.example` to `.env.local`:
 - `VITE_SUPABASE_URL`: project URL. Empty means demo mode.
 - `VITE_SUPABASE_ANON_KEY`: anon key (public by design, RLS protects data).
 
-In Supabase Auth, add the deployed URL (for example `https://snimaipro-social-hub.pages.dev/`) to the allowed redirect URLs. Add team emails to `allowed_users`.
+In Supabase Auth, add the deployed URL (for example `https://snimaipro-social-hub.<subdomain>.workers.dev/`) to the allowed redirect URLs. Add team emails to `allowed_users`.
 
 ## Build and deploy
 
