@@ -1,0 +1,9 @@
+// Cloudflare Workers static assets deploy (free). Used by `npx wrangler deploy`.
+{
+  "name": "snimaipro-social-hub",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}

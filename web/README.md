@@ -23,4 +23,4 @@ In Supabase Auth, add the deployed URL (for example `https://snimaipro-social-hu
 
 ## Build and deploy
 
-`npm run build` outputs `dist/` with relative asset paths, so it works on any static host. Production deploys run on Cloudflare Pages (root `web`, build `npm ci && npm run build`, output `dist`, env `NODE_VERSION=20` plus the two `VITE_` variables).
+`npm run build` outputs `dist/` with relative asset paths, so it works on any static host. Production deploys run on Cloudflare Workers static assets via `wrangler.jsonc` (root `web`, build `npm ci && npm run build`, deploy `npx wrangler deploy`, build variables `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`).

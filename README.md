@@ -21,7 +21,7 @@ Without a backend configured, the site runs in demo mode with sample data.
    insert into public.allowed_users (email) values ('your@email.com');
    ```
 4. Authentication > URL Configuration: set **Site URL** to
-   `https://snimaipro-social-hub.pages.dev/` and add it to Redirect URLs.
+   your Cloudflare site URL (step 4) and add it to Redirect URLs.
 5. Project Settings > API: copy the **Project URL**, the **anon key** and the **service_role key**.
 
 ### 2. Instagram token
@@ -41,28 +41,26 @@ Repo > Settings > Secrets and variables > Actions > New repository secret:
 | `SUPABASE_SERVICE_ROLE_KEY` | service_role key (keep private) |
 | `IG_TOKEN` | Instagram token |
 
-### 4. Cloudflare Pages (free, works with private repos)
+### 4. Cloudflare hosting (free, works with private repos)
 
-1. dash.cloudflare.com > **Workers & Pages** > Create > **Pages** > **Connect to Git**.
-2. Authorize GitHub and pick `snimaipro-social-hub`.
-3. Build settings:
-   - Framework preset: **None**
+1. dash.cloudflare.com > **Workers & Pages** > Create > Import a repository > pick `snimaipro-social-hub`.
+2. Settings:
+   - Root directory (path): `web`
    - Build command: `npm ci && npm run build`
-   - Build output directory: `dist`
-   - Root directory: `web`
-4. Environment variables (Production):
-   - `NODE_VERSION` = `20`
+   - Deploy command: `npx wrangler deploy` (uses `web/wrangler.jsonc`)
+3. Variables (Settings > Build > Variables and secrets, used at build time):
    - `VITE_SUPABASE_URL` = Supabase Project URL
    - `VITE_SUPABASE_ANON_KEY` = anon key
-5. Save and Deploy. Every push to `main` redeploys automatically.
+4. Every push to `main` redeploys automatically. The site lives at
+   `https://snimaipro-social-hub.<your-subdomain>.workers.dev/`.
 
 Without the two `VITE_` variables the site runs in demo mode with sample data.
 
 ### 5. First run
 
 Actions > **Instagram ingest** > Run workflow (tick *full sync*).
-Open `https://snimaipro-social-hub.pages.dev/` and log in with your email.
-If you added the Supabase variables after the first deploy, use Cloudflare > Deployments > Retry deployment.
+Open your Cloudflare site URL and log in with your email.
+If you added the Supabase variables after the first deploy, trigger a new build in Cloudflare (Deployments > Retry, or push any commit).
 
 ## Security
 

@@ -13,10 +13,10 @@ Later phases (not now): content planner, AI insights, Stories capture, comments 
 
 | Part | Choice | Where |
 |---|---|---|
-| Web app | Vite + React 18 + TypeScript + Tailwind + Recharts + react-router (HashRouter) | `web/`, deployed to Cloudflare Pages |
+| Web app | Vite + React 18 + TypeScript + Tailwind + Recharts + react-router (HashRouter) | `web/`, deployed to Cloudflare Workers static assets (`web/wrangler.jsonc`) |
 | Auth + DB | Supabase (Postgres, email magic link login, RLS, allow-list table) | `supabase/` |
 | Ingest | Node 20 + TypeScript (tsx), runs in GitHub Actions on cron | `ingest/`, `.github/workflows/ingest.yml` |
-| Deploy | Cloudflare Pages Git integration builds `web/` on every push to main | Cloudflare dashboard |
+| Deploy | Cloudflare Workers Builds builds `web/` on every push to main | Cloudflare dashboard |
 
 ## Data flow
 
@@ -44,7 +44,7 @@ Later phases (not now): content planner, AI insights, Stories capture, comments 
 ## Secrets (GitHub Actions secrets, never committed)
 
 `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `IG_TOKEN` (ingest);
-`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (Cloudflare Pages env vars, web build). Anon key is public by design; RLS protects data.
+`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` (Cloudflare build variables). Anon key is public by design; RLS protects data.
 
 ## Web app pages (v1)
 
