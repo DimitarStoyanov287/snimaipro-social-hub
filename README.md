@@ -60,7 +60,7 @@ Without the two `VITE_` variables the site runs in demo mode with sample data.
 
 ### 5. First run
 
-Actions > **Instagram sync** > Run workflow (tick *full sync*). 
+Actions > **Instagram ingest** > Run workflow (tick *full sync*).
 Open `https://snimaipro-social-hub.pages.dev/` and log in with your email.
 If you added the Supabase variables after the first deploy, use Cloudflare > Deployments > Retry deployment.
 
